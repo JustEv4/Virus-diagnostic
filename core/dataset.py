@@ -1,21 +1,29 @@
 import pandas as pd
 
+
 class DatasetParser:
+    def __init__(self, file_path):
+        self.file_path = file_path
+        self.target_column = "infection"
 
-    def __init__(self, dataset_path):
-        self.dataset_path = dataset_path
-        self.data = None
+    def load(self):
+        # Charger le dataset CSV
+        data = pd.read_csv(self.file_path)
 
-    def load_dataset(self):
-        """Charger le dataset CSV."""
-        self.data = pd.read_csv(self.dataset_path)
-        return self.data
+        # Vérifier la présence de la colonne cible
+        if self.target_column not in data.columns:
+            raise ValueError(
+                f"La colonne '{self.target_column}' est absente du dataset."
+            )
 
-    def parse_dataset(self):
-        """Séparer les variables explicatives et la cible."""
-        if self.data is None:
-            self.load_dataset()
+        return data
 
-        X = self.data.drop(columns=["infection"])
-        y = self.data["infection"]
+    def parse(self):
+        # Charger les données
+        data = self.load()
+
+        # Séparer les variables explicatives et la cible
+        X = data.drop(columns=[self.target_column])
+        y = data[self.target_column]
+
         return X, y
