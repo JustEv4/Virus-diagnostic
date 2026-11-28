@@ -14,7 +14,7 @@ def main():
     print("Nombre de patients de test :", len(X_test))
 
     # 2. Définir le seuil à l'extérieur du Predictor
-    threshold = 0.5
+    threshold = 0.8
 
     # 3. Créer le prédicteur
     predictor = ClinicalPredictor(model, threshold)
